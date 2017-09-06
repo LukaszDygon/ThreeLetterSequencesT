@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Net;
 
 namespace ThreeLetterSequencesT
 {
@@ -15,11 +16,23 @@ namespace ThreeLetterSequencesT
             this.tlsCountDictionary = new Dictionary<String, int>();
         }
 
-        public void ConstructTLSCountDictionary(string inputFile, bool ignoreNonAlphabetical=false)
+        public void ConstructTLSCountDictionaryFromFile(string inputFile, bool ignoreNonAlphabetical=false)
         {
-            string regexTLS = ignoreNonAlphabetical ? @"(\w\W*(?=(\w\W*\w)))" : @"(\w(?=(\w\w)))";
-           
             string text = System.IO.File.ReadAllText(inputFile);
+            ConstructTLSFromText(text, ignoreNonAlphabetical);
+        }
+
+        public void ConstructTLSCountDictionaryFromWeb(string webURI, bool ignoreNonAlphabetical = false)
+        {
+            var webClient = new WebClient();
+            string text = webClient.DownloadString(webURI);
+            ConstructTLSFromText(text, ignoreNonAlphabetical);
+        }
+
+        private void ConstructTLSFromText(string text, bool ignoreNonAlphabetical)
+        {
+            this.tlsCountDictionary.Clear();
+            string regexTLS = ignoreNonAlphabetical ? @"(\w\W*(?=(\w\W*\w)))" : @"(\w(?=(\w\w)))";
             var matches = Regex.Matches(text, regexTLS, RegexOptions.IgnoreCase);
 
             foreach (Match m in matches)
@@ -98,10 +111,20 @@ namespace ThreeLetterSequencesT
             int numberOfOccurances = Int32.Parse(args[0]);
 
             var tlsHelper = new TLSHelper();
-            tlsHelper.ConstructTLSCountDictionary(inputFile, true);
+
+            Console.WriteLine("Using a downloaded file");
+            tlsHelper.ConstructTLSCountDictionaryFromFile(inputFile);
 
             tlsHelper.PrintTLSCount(testString);
-            tlsHelper.PrintTopResults(30);
+            tlsHelper.PrintTopResults(10);
+            tlsHelper.PrintTLSsWithCount(numberOfOccurances);
+
+            Console.WriteLine("\nNow using a web URI to get the text data");
+            tlsHelper.ConstructTLSCountDictionaryFromWeb("https://raw.githubusercontent.com/CorndelWithSoftwire/ThreeLetterSequences/master/SampleText.txt");
+
+
+            tlsHelper.PrintTLSCount(testString);
+            tlsHelper.PrintTopResults(10);
             tlsHelper.PrintTLSsWithCount(numberOfOccurances);
 
             Console.ReadKey();
