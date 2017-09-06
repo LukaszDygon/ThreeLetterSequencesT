@@ -12,17 +12,17 @@ namespace ThreeLetterSequencesT
         static void Main(string[] args)
         {
             String inputFile = @"C:\Users\LUD\Documents\Training\ThreeLetterSequencesT\ThreeLetterSequencesT\text\SampleText.txt";
-            //Regex regexMatcher = new Regex();
-            int counter = 0;
+            string regexTLS = @"\w\w\w";
+            string regexString = "tra";
+            //Regex regexMatcher = new Regex(regexString, RegexOptions.IgnoreCase);
+            int counterTLS, counterString;
             String text = System.IO.File.ReadAllText(inputFile);
-            for (int i = 0; i < text.Length; i++)
-            {
-                if (text[i] == 't' && text[i + 1] == 'r' && text[i + 2] == 'a')
-                {
-                    counter++;
-                }
-            }
-            Console.WriteLine(counter.ToString());
+
+            counterTLS = Regex.Matches(text, regexTLS, RegexOptions.IgnoreCase).Count;
+            counterString = Regex.Matches(text, regexString, RegexOptions.IgnoreCase).Count;
+
+            Console.WriteLine("{0} TLS found",  counterTLS.ToString());
+            Console.WriteLine("{0} String matches found",  counterString.ToString());
             Console.ReadKey();
         }
     }
