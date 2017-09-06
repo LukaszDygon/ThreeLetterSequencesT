@@ -15,15 +15,22 @@ namespace ThreeLetterSequencesT
             this.tlsCountDictionary = new Dictionary<String, int>();
         }
 
-        public void ConstructTLSCountDictionary(string inputFile)
+        public void ConstructTLSCountDictionary(string inputFile, bool ignoreNonAlphabetical=false)
         {
-            string regexTLS = @"(\w(?=(\w\w)))";
+            string regexTLS = ignoreNonAlphabetical ? @"(\w\W*(?=(\w\W*\w)))" : @"(\w(?=(\w\w)))";
+           
             string text = System.IO.File.ReadAllText(inputFile);
             var matches = Regex.Matches(text, regexTLS, RegexOptions.IgnoreCase);
 
             foreach (Match m in matches)
             {
-                string matchedTLS = string.Format("{0}{1}", m.Groups[1].ToString(), m.Groups[2].ToString()).ToLower();
+
+                string matchedTLS = string.Format("{0}{1}{2}",
+                        m.Groups[1].ToString()[0],
+                        m.Groups[2].ToString()[0],
+                        m.Groups[2].ToString()[m.Groups[2].Length - 1])
+                        .ToLower();
+
                 //Console.WriteLine(tls);
                 if (this.tlsCountDictionary.ContainsKey(matchedTLS))
                 {
@@ -91,10 +98,10 @@ namespace ThreeLetterSequencesT
             int numberOfOccurances = Int32.Parse(args[0]);
 
             var tlsHelper = new TLSHelper();
-            tlsHelper.ConstructTLSCountDictionary(inputFile);
+            tlsHelper.ConstructTLSCountDictionary(inputFile, true);
 
             tlsHelper.PrintTLSCount(testString);
-            tlsHelper.PrintTopResults(10);
+            tlsHelper.PrintTopResults(30);
             tlsHelper.PrintTLSsWithCount(numberOfOccurances);
 
             Console.ReadKey();
