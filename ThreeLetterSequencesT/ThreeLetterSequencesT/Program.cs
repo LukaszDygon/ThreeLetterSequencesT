@@ -10,6 +10,18 @@ namespace ThreeLetterSequencesT
     {
         static void Main(string[] args)
         {
+            int counter = 0;
+            Console.WriteLine("Enter the string:");
+            String userInput = Console.ReadLine();
+            for (int i = 0; i < userInput.Length; i++)
+            {
+                if (userInput[i] == 't' && userInput[i + 1] == 'r' && userInput[i + 2] == 'a')
+                {
+                    counter++;
+                }
+            }
+            Console.WriteLine(counter.ToString());
+            Console.ReadKey();
         }
     }
 }
