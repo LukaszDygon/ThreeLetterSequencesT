@@ -9,21 +9,36 @@ namespace ThreeLetterSequencesT
 {
     class Program
     {
-        static void Main(string[] args)
+        public void PrintResults(int counterTLS, int counterString)
         {
-            String inputFile = @"C:\Users\LUD\Documents\Training\ThreeLetterSequencesT\ThreeLetterSequencesT\text\SampleText.txt";
+            Console.WriteLine("{0} TLS found", counterTLS.ToString());
+            Console.WriteLine("{0} String matches found", counterString.ToString());
+        }
+
+        public void TLSFinder(String inputFile, String regexString)
+        {
+            
             string regexTLS = @"\w\w\w";
-            string regexString = "tra";
-            //Regex regexMatcher = new Regex(regexString, RegexOptions.IgnoreCase);
             int counterTLS, counterString;
+
             String text = System.IO.File.ReadAllText(inputFile);
 
             counterTLS = Regex.Matches(text, regexTLS, RegexOptions.IgnoreCase).Count;
             counterString = Regex.Matches(text, regexString, RegexOptions.IgnoreCase).Count;
 
-            Console.WriteLine("{0} TLS found",  counterTLS.ToString());
-            Console.WriteLine("{0} String matches found",  counterString.ToString());
+            PrintResults(counterTLS, counterString);
+
             Console.ReadKey();
+        }
+
+        
+
+        static void Main(string[] args)
+        {
+            String inputFile = @"C:\Users\LUD\Documents\Training\ThreeLetterSequencesT\ThreeLetterSequencesT\text\SampleText.txt";
+            string regexString = "tra";
+            Program test = new Program();
+            test.TLSFinder(inputFile, regexString);
         }
     }
 }
