@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ThreeLetterSequencesT
@@ -10,12 +11,13 @@ namespace ThreeLetterSequencesT
     {
         static void Main(string[] args)
         {
+            String inputFile = @"C:\Users\LUD\Documents\Training\ThreeLetterSequencesT\ThreeLetterSequencesT\text\SampleText.txt";
+            //Regex regexMatcher = new Regex();
             int counter = 0;
-            Console.WriteLine("Enter the string:");
-            String userInput = Console.ReadLine();
-            for (int i = 0; i < userInput.Length; i++)
+            String text = System.IO.File.ReadAllText(inputFile);
+            for (int i = 0; i < text.Length; i++)
             {
-                if (userInput[i] == 't' && userInput[i + 1] == 'r' && userInput[i + 2] == 'a')
+                if (text[i] == 't' && text[i + 1] == 'r' && text[i + 2] == 'a')
                 {
                     counter++;
                 }
