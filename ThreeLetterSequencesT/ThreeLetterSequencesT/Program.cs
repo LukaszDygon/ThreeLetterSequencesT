@@ -128,9 +128,6 @@ namespace ThreeLetterSequencesT
             tlsHelper.PrintTLSsWithCount(numberOfOccurances);
 
             Console.ReadKey();
-            // Bonus:
-            // Email Regex: [\w|\-|.]+@([\w|\-]+\.)+\w+
-            // Regex for extracting title, first name and last name: ^(\w+)\.? (\w+)[\s|\w]+ (\w+)+$
         }
     }
 }
